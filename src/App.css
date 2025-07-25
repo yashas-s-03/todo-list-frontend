@@ -1,0 +1,1587 @@
+/* src/App.css */
+
+/* --- 1. Base and App Container Styles --- */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a1a; /* Dark background for the whole page */
+  color: white;
+}
+
+.app-container {
+  max-width: 1400px; /* Increased width to accommodate two columns and calendar */
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #282c34;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app-container h1 {
+  text-align: center;
+  color: #61dafb; /* React blue/cyan color */
+  margin-bottom: 30px;
+}
+
+/* --- 2. To-Do Input and Task List Styles --- */
+.todo-input-form {
+  display: flex;
+  flex-wrap: wrap; /* Allows suggestion box and checkbox to wrap below */
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.todo-input {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+}
+
+.todo-input::placeholder {
+  color: #888;
+}
+
+.add-button {
+  padding: 12px 20px;
+  background-color: #61dafb;
+  color: #282c34; /* Dark text on light button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #4fa3d1;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px; /* Space between list and calendar in daily column */
+}
+
+.no-tasks {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3a3f47;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.task-text {
+  flex-grow: 1;
+  font-size: 18px;
+  margin-right: 15px;
+}
+
+/* --- 3. Task Status (Done/Not Done) and Actions Styles --- */
+.todo-item.status-done {
+  background-color: #2e4a3c; /* Darker green for done */
+}
+
+.todo-item.status-not_done {
+  background-color: #5c3030; /* Darker red for not done */
+}
+
+.todo-item.status-done .task-text {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+.todo-item.status-not_done .task-text {
+  text-decoration: none;
+  color: #ff9999; /* Lighter red for not done text */
+  font-style: italic;
+}
+
+.task-status-controls {
+  display: flex;
+  gap: 15px; /* Space between radio buttons */
+  margin-right: 15px; /* Space between controls and delete button */
+}
+
+.task-status-controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.task-status-controls input[type="radio"] {
+  accent-color: #61dafb; /* Colors the radio button itself */
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px; /* Space between delete and move buttons */
+    align-items: center;
+}
+
+.delete-button {
+  background-color: #e74c3c; /* Red for delete */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.move-button {
+    background-color: #3498db; /* Blue for move button */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.move-button:hover {
+    background-color: #2980b9;
+}
+
+
+/* --- 4. Fuzzy Matching Suggestion Styles --- */
+.suggestion-box {
+  width: 100%;
+  padding: 10px 0;
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+.suggestion-text {
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.suggestion-text:hover {
+  color: #4fa3d1;
+}
+
+/* --- 5. Categorized Column Layout Styles --- */
+/* Main content area for columns and calendar */
+.main-content-area {
+    display: flex;
+    gap: 30px; /* Space between task columns block and the calendar */
+    margin-top: 30px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center content when wrapped */
+}
+
+/* Container for Daily and Today's task columns */
+.task-columns {
+  display: flex;
+  flex: 2; /* Task columns block takes 2 parts of available space */
+  gap: 20px; /* Space between Daily and Today's columns */
+  flex-wrap: wrap; /* Allow daily/today columns to wrap */
+  min-width: 600px; /* Minimum width for the combined task columns block */
+}
+
+.task-column {
+  flex: 1; /* Each individual task column takes equal space within .task-columns */
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 280px; /* Ensure columns don't get too small */
+
+  /* For daily-tasks-column specifically, make it a flex container to stack list and calendar */
+  display: flex;
+  flex-direction: column;
+}
+
+.task-column h2 {
+  text-align: center;
+  color: #61dafb;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+/* Checkbox for Daily/Today task type selection */
+.task-type-selection {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+.task-type-selection input[type="checkbox"] {
+    transform: scale(1.2);
+    accent-color: #61dafb;
+}
+
+
+/* --- 6. Authentication Form Styles --- */
+.app-container.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1a1a1a; /* Match body background */
+}
+
+.auth-form-container {
+  background-color: #282c34;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  color: white;
+}
+
+.auth-form-container h2 {
+  color: #61dafb;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+.auth-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form-container input {
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-form-container input::placeholder {
+  color: #888;
+}
+
+.auth-form-container button {
+  padding: 12px 20px;
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.auth-form-container button:hover {
+  background-color: #4fa3d1;
+}
+
+.auth-message {
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: #ffcc00; /* Warning/info color */
+}
+
+.toggle-auth {
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.toggle-auth span {
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.toggle-auth span:hover {
+  color: #4fa3d1;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 15px;
+}
+
+.app-header h1 {
+    margin: 0;
+    text-align: left;
+}
+
+.app-header p {
+    font-size: 1.1em;
+    color: #ccc;
+    margin-right: 20px;
+}
+
+.logout-button {
+  padding: 8px 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+/* Ensure global typing is disabled for auth forms */
+.auth-page .todo-input {
+    pointer-events: auto !important; /* Re-enable pointer events if a global rule disabled it */
+}
+
+
+/* --- 7. Corrected LeetCode-style Daily Calendar Styles --- */
+.daily-calendar-container {
+    background-color: #2a2e37; /* Slightly different background from column */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Space between TodoList and Calendar */
+    width: 100%; /* Ensure it takes full width of its column */
+    box-sizing: border-box; /* Include padding/border in width */
+}
+
+.daily-calendar-container h3 {
+    text-align: left; /* Align to left like GitHub */
+    color: #61dafb;
+    margin-bottom: 15px;
+    border-bottom: none; /* Remove border */
+    padding-bottom: 0;
+    font-size: 1.1em;
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: flex-end; /* Align legend to the right */
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7em; /* Smaller font for legend */
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border for legend boxes */
+}
+/* LeetCode/GitHub-like color levels */
+.legend-box.level-0, .calendar-day.no-activity-day { background-color: #161b22; } /* No activity */
+.legend-box.level-1 { background-color: #0e4429; } /* Level 1 activity (optional, for more levels) */
+.legend-box.level-2 { background-color: #006d32; } /* Level 2 activity */
+.legend-box.level-3, .calendar-day.completed-day { background-color: #26a641; } /* Level 3/High activity */
+
+
+/* Main grid container for the entire calendar display (holds labels, month names, and days) */
+.calendar-main-grid {
+    display: grid;
+    /* Define columns: 1st for weekday labels (auto), then 53 fixed-width columns for weeks */
+    grid-template-columns: auto repeat(53, 15px); /* auto for labels, 53 fixed-width columns for weeks (15px wide each) */
+
+    /* Define rows: 1st for month names (auto), then 7 rows for days of the week (15px high each) */
+    grid-template-rows: auto repeat(7, 15px); /* auto for month names, 7 rows of 15px for days */
+
+    gap: 2px; /* Small gap between all grid cells */
+    overflow-x: auto; /* Allow horizontal scrolling if too wide */
+    padding-bottom: 5px; /* Space for scrollbar */
+    border: 1px solid #444; /* Outer border for the entire grid */
+    border-radius: 5px;
+    align-items: start; /* Align items to the top of their grid areas */
+}
+
+.weekday-labels {
+    grid-column: 1; /* Fixed to the first grid column */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* Distribute labels vertically */
+    align-items: center;
+    font-size: 0.7em;
+    color: #aaa;
+    padding-right: 5px;
+    pointer-events: none; /* Make non-interactive */
+}
+
+.weekday-label {
+    height: 15px; /* Match height of calendar-day, needed for vertical spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.calendar-month-names-row {
+    grid-column: 2 / -1; /* Spans from the 2nd column to the end of the grid */
+    grid-row: 1; /* Fixed to the first grid row */
+    display: grid; /* Now this is a grid itself to position month names precisely */
+    grid-template-columns: repeat(53, 15px); /* Match the 53 week columns from parent */
+    grid-auto-flow: column; /* Ensure items flow into columns */
+    gap: 2px; /* Match the gap from the parent grid */
+    font-size: 0.8em;
+    color: #aaa;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    pointer-events: none;
+    align-items: end; /* Align month names to the bottom of their row */
+    overflow: hidden; /* Hide overflow from month names */
+}
+
+.calendar-month-name {
+    /* JS will set grid-column-start on these elements directly */
+    text-align: left; /* Align month names to the left within their calculated column */
+    white-space: nowrap; /* Prevent month names from wrapping */
+    overflow: visible; /* Allow content to spill out to the right */
+    padding-right: 5px; /* Small padding so names don't touch */
+}
+
+
+.calendar-days-grid {
+    grid-column: 2 / -1; /* Spans from the 2nd column to the end of the grid */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: grid;
+    /* Create a grid with 7 rows (for days of week) and enough columns for all days */
+    /* This grid will hold the 365+ day cells */
+    grid-template-columns: repeat(53, 15px); /* 53 columns, 15px wide each */
+    grid-template-rows: repeat(7, 15px); /* 7 rows, 15px high for days of week */
+    gap: 2px; /* Gap between day cells */
+    grid-auto-flow: column; /* Crucial: make items flow into columns first, then rows */
+}
+
+.calendar-day {
+    width: 15px; /* Fixed size for each activity square */
+    height: 15px;
+    background-color: #161b22; /* Default background for no activity */
+    border-radius: 2px;
+    box-sizing: border-box; /* Include padding/border in width/height */
+}
+
+.calendar-day.completed-day {
+    background-color: #26a641; /* Green for completed activity */
+}
+
+.calendar-day.today-day {
+    border: 1px solid #61dafb; /* Blue border for today */
+    box-shadow: 0 0 5px rgba(97, 218, 251, 0.7); /* Glow for today */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .main-content-area {
+        flex-direction: column; /* Stack columns vertically */
+        align-items: center;
+        width: 100%;
+    }
+    .task-columns {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px; /* Constrain width of the stacked columns */
+    }
+    /* src/App.css */
+/* ... (All existing styles from the full combined CSS) ... */
+
+
+/* --- 7. Corrected LeetCode-style Daily Calendar Styles (FOR MIRROR IMAGE) --- */
+.daily-calendar-container {
+    background-color: #2a2e37;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.daily-calendar-container h3 {
+    text-align: left;
+    color: #61dafb;
+    margin-bottom: 15px;
+    border-bottom: none;
+    padding-bottom: 0;
+    font-size: 1.1em;
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7em;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* LeetCode/GitHub-like color levels */
+.legend-box.level-0, .calendar-day.no-activity-day { background-color: #161b22; }
+.legend-box.level-1 { background-color: #0e4429; }
+.legend-box.level-2 { background-color: #006d32; }
+.legend-box.level-3, .calendar-day.completed-day { background-color: #26a641; }
+
+
+/* Main grid container for the entire calendar display (holds labels, month names, and days) */
+.calendar-main-grid {
+    display: grid;
+    /* Define columns: 1st for weekday labels (auto), then 53 fixed-width columns for weeks */
+    grid-template-columns: auto repeat(53, 15px); /* 53 columns fixed-width for weeks (15px wide each) */
+
+    /* Rows: 1st for month names (auto), then 7 rows for days of the week (15px high each) */
+    grid-template-rows: auto repeat(7, 15px); /* auto for month names, 7 rows of 15px for days */
+
+    gap: 2px; /* Small gap between all grid cells */
+    overflow-x: auto; /* Allow horizontal scrolling if too wide */
+    padding-bottom: 5px; /* Space for scrollbar */
+    border: 1px solid #444; /* Outer border for the entire grid */
+    border-radius: 5px;
+    align-items: start; /* Align items to the top of their grid areas */
+
+    /* NEW: For RTL flow of columns */
+    direction: rtl; /* Make the grid content flow from right-to-left */
+}
+
+.weekday-labels {
+    grid-column: 1; /* Fixed to the first grid column */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.7em;
+    color: #aaa;
+    padding-right: 5px;
+    pointer-events: none;
+    direction: ltr; /* Reset direction for text within these labels */
+}
+
+.weekday-label {
+    height: 15px; /* Match height of calendar-day, needed for vertical spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+/* src/App.css */
+
+/* ... (All existing styles from the full combined CSS - keep these as is) ... */
+
+
+/* --- 7. Corrected LeetCode-style Daily Calendar Styles (STANDARD CHRONOLOGICAL FLOW) --- */
+.daily-calendar-container {
+    background-color: #2a2e37;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.daily-calendar-container h3 {
+    text-align: left;
+    color: #61dafb;
+    margin-bottom: 15px;
+    border-bottom: none;
+    padding-bottom: 0;
+    font-size: 1.1em;
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7em;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* LeetCode/GitHub-like color levels */
+.legend-box.level-0, .calendar-day.no-activity-day { background-color: #161b22; }
+.legend-box.level-1 { background-color: #0e4429; }
+.legend-box.level-2 { background-color: #006d32; }
+.legend-box.level-3, .calendar-day.completed-day { background-color: #26a641; }
+
+
+/* Main grid container for the entire calendar display (holds labels, month names, and days) */
+.calendar-main-grid {
+    display: grid;
+    /* Define columns: 1st for weekday labels (auto), then 53 fixed-width columns for weeks */
+    grid-template-columns: auto repeat(53, 15px); /* 53 columns fixed-width for weeks (15px wide each) */
+
+    /* Define rows: 1st for month names (auto), then 7 rows for days of the week (15px high each) */
+    grid-template-rows: auto repeat(7, 15px); /* auto for month names, 7 rows of 15px for days */
+
+    gap: 2px; /* Small gap between all grid cells */
+    overflow-x: auto; /* Allow horizontal scrolling if too wide */
+    padding-bottom: 5px; /* Space for scrollbar */
+    border: 1px solid #444; /* Outer border for the entire grid */
+    border-radius: 5px;
+    align-items: start; /* Align items to the top of their grid areas */
+
+    /* REMOVED: direction: rtl; -- this was causing the mirror image */
+}
+
+.weekday-labels {
+    grid-column: 1; /* Fixed to the first grid column */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.7em;
+    color: #aaa;
+    padding-right: 5px;
+    pointer-events: none;
+    /* REMOVED: direction: ltr; -- no longer needed without parent rtl */
+}
+
+.weekday-label {
+    height: 15px; /* Match height of calendar-day, needed for vertical spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.calendar-month-names-row {
+    grid-column: 2 / -1; /* Spans from the 2nd column to the end of the grid */
+    grid-row: 1; /* Fixed to the first grid row */
+    display: grid; /* Now this is a grid itself to position month names precisely */
+    grid-template-columns: repeat(53, 15px); /* Match the 53 week columns from parent */
+    grid-auto-flow: column; /* Ensure items flow into columns */
+    gap: 2px; /* Match the gap from the parent grid */
+    font-size: 0.8em;
+    color: #aaa;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    pointer-events: none;
+    align-items: end;
+    overflow: hidden;
+    /* REMOVED: direction: rtl; -- this was causing month names to display reversed */
+}
+
+.calendar-month-name {
+    text-align: left; /* Align month names to the left within their calculated column */
+    white-space: nowrap;
+    overflow: visible;
+    padding-right: 5px;
+    /* REMOVED: direction: ltr; -- no longer needed without parent rtl */
+}
+
+
+.calendar-days-grid {
+    grid-column: 2 / -1; /* Spans from the 2nd column to the end of the grid */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: grid;
+    grid-template-columns: repeat(53, 15px); /* 53 columns, 15px wide each */
+    grid-template-rows: repeat(7, 15px); /* 7 rows, 15px high for days of week */
+    gap: 2px; /* Gap between day cells */
+    grid-auto-flow: column; /* Crucial: make items flow into columns first, then rows */
+    /* REMOVED: direction: rtl; -- this was causing day cells to flow reversed */
+}
+
+.calendar-day {
+    width: 15px;
+    height: 15px;
+    background-color: #161b22;
+    border-radius: 2px;
+    box-sizing: border-box;
+    /* REMOVED: direction: ltr; -- no longer needed without parent rtl */
+}
+
+.calendar-day.completed-day {
+    background-color: #26a641;
+}
+
+.calendar-day.today-day {
+    border: 1px solid #61dafb;
+    box-shadow: 0 0 5px rgba(97, 218, 251, 0.7);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .main-content-area {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .task-columns {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px;
+    }
+    .daily-calendar-container {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px;
+        margin-top: 30px;
+        overflow-x: auto;
+    }
+    /* Calendar grid adjustments for smaller screens */
+    .calendar-main-grid {
+        grid-template-columns: auto 1fr;
+        /* REMOVED: direction: ltr; */
+    }
+    .calendar-month-names-row {
+        grid-column: 2 / -1;
+        display: flex;
+        justify-content: flex-start; /* Ensure start from left */
+        padding-left: 0;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        /* REMOVED: direction: ltr; */
+    }
+    .calendar-month-name {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        margin-right: 20px;
+        text-align: left;
+        /* REMOVED: direction: ltr; */
+    }
+    .calendar-days-grid {
+        grid-column: 2 / -1;
+        grid-template-columns: repeat(auto-fill, 15px);
+        overflow-x: auto;
+        /* REMOVED: direction: ltr; */
+    }
+}
+
+@media (max-width: 768px) {
+    .task-columns {
+        flex-direction: column;
+    }
+    .task-column {
+        width: 100%;
+    }
+}
+}
+
+@media (max-width: 768px) {
+    .task-columns {
+        flex-direction: column;
+    }
+    .task-column {
+        width: 100%;
+    }
+}
+/* src/App.css */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.app-container {
+  max-width: 1400px; /* Increased width to accommodate two columns and calendar */
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #282c34;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app-container h1 {
+  text-align: center;
+  color: #61dafb; /* React blue/cyan color */
+  margin-bottom: 30px;
+}
+
+.todo-input-form {
+  display: flex;
+  flex-wrap: wrap; /* Allows suggestion box and checkbox to wrap below */
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.todo-input {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+}
+
+.todo-input::placeholder {
+  color: #888;
+}
+
+.add-button {
+  padding: 12px 20px;
+  background-color: #61dafb;
+  color: #282c34; /* Dark text on light button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #4fa3d1;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px; /* Space between list and calendar in daily column */
+}
+
+.no-tasks {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3a3f47;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.task-text {
+  flex-grow: 1;
+  font-size: 18px;
+  margin-right: 15px;
+}
+
+/* --- 3. Task Status (Done/Not Done) and Actions Styles --- */
+.todo-item.status-done {
+  background-color: #2e4a3c; /* Darker green for done */
+}
+
+.todo-item.status-not_done {
+  background-color: #5c3030; /* Darker red for not done */
+}
+
+.todo-item.status-done .task-text {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+.todo-item.status-not_done .task-text {
+  text-decoration: none;
+  color: #ff9999; /* Lighter red for not done text */
+  font-style: italic;
+}
+
+.task-status-controls {
+  display: flex;
+  gap: 15px; /* Space between radio buttons */
+  margin-right: 15px; /* Space between controls and delete button */
+}
+
+.task-status-controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.task-status-controls input[type="radio"] {
+  accent-color: #61dafb; /* Colors the radio button itself */
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px; /* Space between delete and move buttons */
+    align-items: center;
+}
+
+.delete-button {
+  background-color: #e74c3c; /* Red for delete */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.move-button {
+    background-color: #3498db; /* Blue for move button */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.move-button:hover {
+    background-color: #2980b9;
+}
+
+
+/* --- 4. Fuzzy Matching Suggestion Styles --- */
+.suggestion-box {
+  width: 100%;
+  padding: 10px 0;
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+.suggestion-text {
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.suggestion-text:hover {
+  color: #4fa3d1;
+}
+
+/* --- 5. Categorized Column Layout Styles --- */
+/* Main content area for columns and calendar */
+.main-content-area {
+    display: flex;
+    gap: 30px; /* Space between task columns block and the calendar */
+    margin-top: 30px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center content when wrapped */
+}
+
+/* Container for Daily and Today's task columns */
+.task-columns {
+  display: flex;
+  flex: 2; /* Task columns block takes 2 parts of available space */
+  gap: 20px; /* Space between Daily and Today's columns */
+  flex-wrap: wrap; /* Allow daily/today columns to wrap */
+  min-width: 600px; /* Minimum width for the combined task columns block */
+}
+
+.task-column {
+  flex: 1; /* Each individual task column takes equal space within .task-columns */
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 280px; /* Ensure columns don't get too small */
+
+  /* For daily-tasks-column specifically, make it a flex container to stack list and calendar */
+  display: flex;
+  flex-direction: column;
+}
+
+.task-column h2 {
+  text-align: center;
+  color: #61dafb;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+/* Checkbox for Daily/Today task type selection */
+.task-type-selection {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+.task-type-selection input[type="checkbox"] {
+    transform: scale(1.2);
+    accent-color: #61dafb;
+}
+
+
+/* --- 6. Authentication Form Styles --- */
+.app-container.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1a1a1a; /* Match body background */
+}
+
+.auth-form-container {
+  background-color: #282c34;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  color: white;
+}
+
+.auth-form-container h2 {
+  color: #61dafb;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+.auth-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form-container input {
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-form-container input::placeholder {
+  color: #888;
+}
+
+.auth-form-container button {
+  padding: 12px 20px;
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.auth-form-container button:hover {
+  background-color: #4fa3d1;
+}
+
+.auth-message {
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: #ffcc00; /* Warning/info color */
+}
+
+.toggle-auth {
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.toggle-auth span {
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.toggle-auth span:hover {
+  color: #4fa3d1;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 15px;
+}
+
+.app-header h1 {
+    margin: 0;
+    text-align: left;
+}
+
+.app-header p {
+    font-size: 1.1em;
+    color: #ccc;
+    margin-right: 20px;
+}
+
+.logout-button {
+  padding: 8px 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+/* Ensure global typing is disabled for auth forms */
+.auth-page .todo-input {
+    pointer-events: auto !important; /* Re-enable pointer events if a global rule disabled it */
+}
+
+
+/* --- 7. Corrected LeetCode-style Daily Calendar Styles (STANDARD CHRONOLOGICAL FLOW) --- */
+.daily-calendar-container {
+    background-color: #2a2e37;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.daily-calendar-container h3 {
+    text-align: left;
+    color: #61dafb;
+    margin-bottom: 15px;
+    border-bottom: none;
+    padding-bottom: 0;
+    font-size: 1.1em;
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7em;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* LeetCode/GitHub-like color levels */
+.legend-box.level-0, .calendar-day.no-activity-day { background-color: #161b22; }
+.legend-box.level-1 { background-color: #0e4429; }
+.legend-box.level-2 { background-color: #006d32; }
+.legend-box.level-3, .calendar-day.completed-day { background-color: #26a641; }
+
+
+/* Main grid container for the entire calendar display (holds labels, month names, and days) */
+.calendar-main-grid {
+    display: grid;
+    /* Define columns: 53 fixed-width columns for weeks, then auto for weekday labels */
+    grid-template-columns: repeat(53, 15px) auto; /* Moved auto to the end */
+
+    /* Rows: 1st for month names (auto), then 7 rows for days of the week (15px high each) */
+    grid-template-rows: auto repeat(7, 15px); /* auto for month names, 7 rows of 15px for days */
+
+    gap: 2px; /* Small gap between all grid cells */
+    overflow-x: auto; /* Allow horizontal scrolling if too wide */
+    padding-bottom: 5px; /* Space for scrollbar */
+    border: 1px solid #444; /* Outer border for the entire grid */
+    border-radius: 5px;
+    align-items: start; /* Align items to the top of their grid areas */
+}
+
+/* Weekday Labels (fixed on the RIGHT) */
+.weekday-labels {
+    grid-column: 54; /* CORRECTED: Placed in the last column (53 weeks + 1) */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.7em;
+    color: #aaa;
+    padding-left: 5px; /* Padding on the left, as they are now on the right */
+    padding-right: 0; /* Remove old padding */
+    pointer-events: none;
+}
+
+.weekday-label {
+    height: 15px; /* Match height of calendar-day, needed for vertical spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.calendar-month-names-row {
+    grid-column: 1 / 54; /* CORRECTED: Spans from the 1st column up to the weekday labels column (column 54 is the last) */
+    grid-row: 1; /* Fixed to the first grid row */
+    display: grid;
+    grid-template-columns: repeat(53, 15px); /* Match the 53 week columns from parent */
+    grid-auto-flow: column;
+    gap: 2px;
+    font-size: 0.8em;
+    color: #aaa;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    pointer-events: none;
+    align-items: end;
+    overflow: hidden;
+}
+
+.calendar-month-name {
+    text-align: left;
+    white-space: nowrap;
+    overflow: visible;
+    padding-right: 5px;
+}
+
+
+.calendar-days-grid {
+    grid-column: 1 / 54; /* CORRECTED: Spans from the 1st column up to the weekday labels column */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: grid;
+    grid-template-columns: repeat(53, 15px); /* 53 columns, 15px wide each */
+    grid-template-rows: repeat(7, 15px); /* 7 rows, 15px high for days of week */
+    gap: 2px; /* Gap between day cells */
+    grid-auto-flow: column; /* Crucial: make items flow into columns first, then rows */
+}
+
+.calendar-day {
+    width: 15px;
+    height: 15px;
+    background-color: #161b22;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.calendar-day.completed-day {
+    background-color: #26a641;
+}
+
+.calendar-day.today-day {
+    border: 1px solid #61dafb;
+    box-shadow: 0 0 5px rgba(97, 218, 251, 0.7);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .main-content-area {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .task-columns {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px;
+    }
+    .daily-calendar-container {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px;
+        margin-top: 30px;
+        overflow-x: auto;
+    }
+    /* Calendar grid adjustments for smaller screens */
+    .calendar-main-grid {
+        grid-template-columns: 1fr auto; /* Days first (1fr), then auto for labels */
+    }
+    .weekday-labels {
+        grid-column: 1; /* Move back to left on smaller screens if stacked horizontally */
+        grid-row: 2 / span 7;
+        padding-left: 0;
+        padding-right: 5px;
+    }
+    .calendar-month-names-row {
+        grid-column: 2 / -1; /* Spans the rest of the columns */
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 0;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+    .calendar-month-name {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        margin-right: 20px;
+        text-align: left;
+    }
+    .calendar-days-grid {
+        grid-column: 2 / -1; /* Spans the rest of the columns */
+        grid-template-columns: repeat(auto-fill, 15px);
+        overflow-x: auto;
+    }
+    /* src/App.css */
+/* ... (All existing styles from the full combined CSS) ... */
+
+/* Main grid container for the entire calendar display (holds labels, month names, and days) */
+.calendar-main-grid {
+    display: grid;
+    /* Define columns: 53 fixed-width columns for weeks, then auto for weekday labels */
+    grid-template-columns: repeat(53, 15px) auto; /* Moved auto to the end */
+
+    /* Rows: 1st for month names (auto), then 7 rows for days of the week (15px high each) */
+    grid-template-rows: auto repeat(7, 15px); /* auto for month names, 7 rows of 15px for days */
+
+    gap: 2px; /* Small gap between all grid cells */
+    overflow-x: auto; /* Allow horizontal scrolling if too wide */
+    padding-bottom: 5px; /* Space for scrollbar */
+    border: 1px solid #444; /* Outer border for the entire grid */
+    border-radius: 5px;
+    align-items: start; /* Align items to the top of their grid areas */
+}
+
+/* Weekday Labels (fixed on the RIGHT) */
+.weekday-labels {
+    grid-column: 54; /* CORRECTED: Placed in the last column (53 weeks + 1) */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.7em;
+    color: #aaa;
+    padding-left: 5px; /* Padding on the left, as they are now on the right */
+    padding-right: 0; /* Remove old padding */
+    pointer-events: none;
+}
+
+.weekday-label {
+    height: 15px; /* Match height of calendar-day, needed for vertical spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.calendar-month-names-row {
+    grid-column: 1 / 54; /* CORRECTED: Spans from the 1st column up to the weekday labels column (column 54 is the last) */
+    grid-row: 1; /* Fixed to the first grid row */
+    display: grid;
+    grid-template-columns: repeat(53, 15px); /* Match the 53 week columns from parent */
+    grid-auto-flow: column;
+    gap: 2px;
+    font-size: 0.8em;
+    color: #aaa;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    pointer-events: none;
+    align-items: end;
+    overflow: hidden;
+}
+
+.calendar-month-name {
+    text-align: left;
+    white-space: nowrap;
+    overflow: visible;
+    padding-right: 5px;
+}
+
+
+.calendar-days-grid {
+    grid-column: 1 / 54; /* CORRECTED: Spans from the 1st column up to the weekday labels column */
+    grid-row: 2 / span 7; /* Spans from the 2nd row (after month names) for 7 rows */
+    display: grid;
+    grid-template-columns: repeat(53, 15px); /* 53 columns, 15px wide each */
+    grid-template-rows: repeat(7, 15px); /* 7 rows, 15px high for days of week */
+    gap: 2px; /* Gap between day cells */
+    grid-auto-flow: column; /* Crucial: make items flow into columns first, then rows */
+}
+
+.calendar-day {
+    width: 15px;
+    height: 15px;
+    background-color: #161b22;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.calendar-day.completed-day {
+    background-color: #26a641;
+}
+
+.calendar-day.today-day {
+    border: 1px solid #61dafb;
+    box-shadow: 0 0 5px rgba(97, 218, 251, 0.7);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .main-content-area {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .task-columns {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px;
+    }
+    .daily-calendar-container {
+        width: 100%;
+        min-width: unset;
+        max-width: 700px;
+        margin-top: 30px;
+        overflow-x: auto;
+    }
+    /* Calendar grid adjustments for smaller screens */
+    .calendar-main-grid {
+        grid-template-columns: 1fr auto; /* Days first (1fr), then auto for labels */
+    }
+    .weekday-labels {
+        grid-column: 1; /* Move back to left on smaller screens if stacked horizontally */
+        grid-row: 2 / span 7;
+        padding-left: 0;
+        padding-right: 5px;
+    }
+    .calendar-month-names-row {
+        grid-column: 2 / -1; /* Spans the rest of the columns */
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 0;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+    .calendar-month-name {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        margin-right: 20px;
+        text-align: left;
+    }
+    .calendar-days-grid {
+        grid-column: 2 / -1; /* Spans the rest of the columns */
+        grid-template-columns: repeat(auto-fill, 15px);
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .task-columns {
+        flex-direction: column;
+    }
+    .task-column {
+        width: 100%;
+    }
+}
+
+/* NEW: Style for Load More History button */
+.load-more-history-button {
+    display: block; /* Make it take full width below calendar */
+    margin: 20px auto 0 auto; /* Center it below the calendar */
+    padding: 10px 20px;
+    background-color: #3498db; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.load-more-history-button:hover {
+    background-color: #2980b9;
+}
+}
+
+@media (max-width: 768px) {
+    .task-columns {
+        flex-direction: column;
+    }
+    .task-column {
+        width: 100%;
+    }
+    /* ... (existing App.css code) ... */
+
+/* Calendar Loading Indicator */
+.calendar-loading-indicator {
+    text-align: center;
+    color: #61dafb; /* React blue/cyan color */
+    font-size: 0.9em;
+    margin-top: 10px;
+    padding-bottom: 5px; /* Add some space if needed */
+}
+
+/* ... (rest of the App.css code remains the same) ... */
+}
+
+@media (max-width: 768px) {
+    .task-columns {
+        flex-direction: column;
+    }
+    .task-column {
+        width: 100%;
+    }
+} 
